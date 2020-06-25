@@ -1,0 +1,42 @@
+1**- Remarque: Dans la plupart des crypto-monnaies, 
+même les transactions individuelles dans le bloc sont hachées puis stockées 
+pour former un arbre de hachage (également connu sous le nom d' arbre merkle ). 
+La racine de l'arbre représente généralement le hachage du bloc. 
+Ce n'est pas une exigence nécessaire pour le fonctionnement de la blockchain, nous l'omettons donc pour garder les choses simples.
+
+=============================================================================================================================================================
+
+2**- Nous avons besoin d'un moyen de nous assurer que tout changement dans les blocs précédents invalide toute la chaîne. 
+La façon Bitcoin de le faire est de créer une dépendance entre les blocs consécutifs en les enchaînant avec le hachage du bloc immédiatement précédent. 
+En enchaînant ici, nous entendons inclure le hachage du bloc précédent dans le bloc actuel dans un nouveau champ appelé previous_hash.
+
+=============================================================================================================================================================
+
+3**- Cette technique est une version simplifiée de l' algorithme Hashcash utilisé dans Bitcoin. 
+Le nombre de zéros spécifié dans la contrainte détermine la difficulté de notre algorithme de preuve de travail 
+(plus le nombre de zéros est élevé, plus il est difficile de comprendre le nonce).
+De plus, en raison de l'asymétrie, la preuve de travail est difficile à calculer mais très facile à vérifier 
+une fois que vous avez compris le nonce (il vous suffit d'exécuter à nouveau la fonction de hachage).
+Notez qu'il n'y a pas de logique spécifique pour déterminer rapidement le nonce; c'est juste de la force brute. 
+La seule amélioration définitive que vous pouvez apporter est d'utiliser des puces matérielles spécialement conçues 
+pour calculer la fonction de hachage dans un plus petit nombre d'instructions du processeur.
+
+=============================================================================================================================================================
+
+4**- Pour ajouter un bloc à la chaîne, nous devons d'abord vérifier que:
+
+Les données n'ont pas été falsifiées (la preuve de travail fournie est correcte).
+L'ordre des transactions est conservé (le previous_hashchamp du bloc à ajouter pointe vers le hachage du dernier bloc de notre chaîne).
+
+=============================================================================================================================================================
+
+5**-Les transactions seront initialement stockées sous forme de pool de transactions non confirmées. 
+Le processus consistant à placer les transactions non confirmées dans un bloc et à calculer la preuve du travail 
+est appelé l' extraction de blocs. Une fois le nonce satisfaisant à nos contraintes déterminé, nous pouvons dire qu'un bloc 
+a été miné et qu'il peut être placé dans la blockchain.
+
+=============================================================================================================================================================
+
+6**-Dans la plupart des crypto-monnaies (y compris Bitcoin), 
+les mineurs peuvent recevoir une crypto-monnaie en récompense pour avoir dépensé leur puissance de calcul 
+pour calculer une preuve de travail. Voici à quoi ressemble notre fonction d'exploration de données.
